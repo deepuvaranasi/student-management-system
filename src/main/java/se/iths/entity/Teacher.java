@@ -2,44 +2,32 @@ package se.iths.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.Size;
 import java.util.List;
 import java.util.Set;
 
 @Entity
-public class Student {
+public class Teacher {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Size(min=2)
+    @NotEmpty
     private String firstName;
     @NotEmpty
     private String lastName;
+    @NotEmpty
     private String email;
-    private String phoneNumber;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "teacher", cascade = CascadeType.PERSIST)
     private List<Subject> subjects;
 
-
-    public Student() {
-    }
-
-    public Student(String firstName, String lastName, String email, String phoneNumber, List<Subject> subjects) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.subjects = subjects;
-    }
-
-    public void addSubject(Subject subject){
+    public void addSubject(Subject subject) {
         subjects.add(subject);
-        subject.addStudent(this);
+        subject.setTeacher(this);
     }
 
-
+    public Teacher() {
+    }
 
     public Long getId() {
         return id;
@@ -73,19 +61,11 @@ public class Student {
         this.email = email;
     }
 
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
     public List<Subject> getSubjects() {
-        return subjects;
+        return (List<Subject>) subjects;
     }
 
-    public void setSubjects(List<Subject> subjects) {
-        this.subjects = subjects;
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = (List<Subject>) subjects;
     }
 }

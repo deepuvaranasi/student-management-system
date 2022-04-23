@@ -2,7 +2,7 @@ package se.iths.service;
 
 
 import se.iths.entity.Student;
-
+import se.iths.rest.StudentRest;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;

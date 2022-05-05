@@ -12,14 +12,12 @@ public class Teacher {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotEmpty
-    private String firstName;
-    @NotEmpty
-    private String lastName;
+    private String teacherName;
     @NotEmpty
     private String email;
 
     @OneToMany(mappedBy = "teacher", cascade = CascadeType.PERSIST)
-    private List<Subject> subjects;
+    private Set<Subject> subjects;
 
     public void addSubject(Subject subject) {
         subjects.add(subject);
@@ -29,28 +27,20 @@ public class Teacher {
     public Teacher() {
     }
 
-    public Long getId() {
-        return id;
+    public String getTeacherName() {
+        return teacherName;
     }
 
-    public void setId(Long id) {
-        this.id = id;
+    public Set<Subject> getSubjects() {
+        return subjects;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public void setSubjects(Set<Subject> subjects) {
+        this.subjects = subjects;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
+    public void setTeacherName(String teacherName) {
+        this.teacherName = teacherName;
     }
 
     public String getEmail() {
@@ -61,11 +51,14 @@ public class Teacher {
         this.email = email;
     }
 
-    public List<Subject> getSubjects() {
-        return (List<Subject>) subjects;
+    @Override
+    public String toString() {
+        return "Teacher{" +
+                "id=" + id +
+                ", teacherName='" + teacherName + '\'' +
+                ", email='" + email + '\'' +
+                '}';
     }
 
-    public void setSubjects(Set<Subject> subjects) {
-        this.subjects = (List<Subject>) subjects;
-    }
+
 }

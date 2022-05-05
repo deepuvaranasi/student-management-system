@@ -13,8 +13,9 @@ public class TeacherService {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void createTeacher(Teacher teacher) {
+    public Teacher createTeacher(Teacher teacher) {
         entityManager.persist(teacher);
+        return teacher;
     }
 
     public void updateTeacher(Teacher student) {

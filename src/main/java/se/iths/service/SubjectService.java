@@ -13,8 +13,9 @@ public class SubjectService {
     @PersistenceContext
     EntityManager entityManager;
 
-    public void createSubject(Subject subject) {
+    public Subject createSubject(Subject subject) {
         entityManager.persist(subject);
+        return subject;
     }
 
     public void updateSubject(Subject subject) {

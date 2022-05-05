@@ -35,7 +35,7 @@ public class  StudentRest {
         String emailValue = student.getEmail();
 
         if (Exception.findStudentByEmail(studentsFound, emailValue)) {
-            Exception.sendEmailException();
+            Exception.sendJsonEMailException(emailValue);
         }
         return Response.ok(student).build();
     }
@@ -61,7 +61,7 @@ public class  StudentRest {
         return Response.ok(studentsFound).build();
     }
 
-    @Path("{id}")
+    @Path("delete/{id}")
     @DELETE
     public Response deleteStudent(@PathParam("id") Long id) {
         studentService.deleteStudent(id);

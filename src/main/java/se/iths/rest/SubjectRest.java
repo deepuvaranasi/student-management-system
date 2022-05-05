@@ -23,23 +23,18 @@ public class SubjectRest {
 
     @Path("create")
     @POST
+
     public Response createSubject(Subject subject) {
 
-        if (nameExits(subjectService.getAllSubjects(), subject.getName())) {
-            Exception.sendJsonException(subject.getName());
-            return null;
-        } else {
-            subjectService.createSubject(subject);
-            return Response.ok(subject).build();
-        }
-
+        Subject subjectResult = subjectService.createSubject(subject);
+        return Response.ok(subjectResult).build();
     }
 
    @Path("update")
     @PUT
     public Response updateSubject(Subject subject) {
-       if (nameExits(subjectService.getAllSubjects(), subject.getName())) {
-           Exception.sendJsonException(subject.getName());
+       if (nameExits(subjectService.getAllSubjects(), subject.getSubjectName())) {
+           Exception.sendJsonException(subject.getSubjectName());
            return null;
        } else {
            subjectService.updateSubject(subject);
@@ -47,7 +42,7 @@ public class SubjectRest {
        }
 
     }
-    @Path("getAll")
+    @Path("getall")
     @GET
     public Response getAllSubjects() {
         List<Subject> foundSubjects = subjectService.getAllSubjects();
@@ -76,7 +71,7 @@ public class SubjectRest {
         boolean isPresent = false;
 
         for (Subject el : subjectsFound) {
-            if (el.getName().contains(nameValue)) {
+            if (el.getSubjectName().contains(nameValue)) {
                 isPresent = true;
                 break;
             }

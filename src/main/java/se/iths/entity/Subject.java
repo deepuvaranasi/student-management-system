@@ -1,5 +1,6 @@
 package se.iths.entity;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.util.List;
@@ -13,7 +14,7 @@ public class Subject {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     @NotEmpty
-    private String name;
+    private String subjectName;
 
     @ManyToOne
     private Teacher teacher;
@@ -21,20 +22,24 @@ public class Subject {
     @ManyToMany(mappedBy = "subjects")
     private List<Student> students;
 
-
     public void addStudent(Student student){
         students.add(student);
+        student.getSubjects().add(this);
     }
 
+    public Subject(String subjectName, Teacher teacher, List<Student> students) {
+        this.subjectName = subjectName;
+        this.teacher = teacher;
+        this.students = students;
+    }
+
+    @JsonbTransient
     public Teacher getTeacher() {
         return teacher;
     }
 
     public void setTeacher(Teacher teacher) {
         this.teacher = teacher;
-    }
-
-    public Subject() {
     }
 
     public Long getId() {
@@ -45,12 +50,12 @@ public class Subject {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getSubjectName() {
+        return subjectName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setSubjectName(String subjectName) {
+        this.subjectName = subjectName;
     }
 
     public List<Student> getStudents() {
@@ -60,4 +65,16 @@ public class Subject {
     public void setStudents(List<Student> students) {
         this.students = students;
     }
+
+    public Subject() {
+    }
+
+    @Override
+    public String toString() {
+        return "Subject{" +
+                "id=" + id +
+                ", subjectName='" + subjectName + '\'' +
+                '}';
+    }
+
 }

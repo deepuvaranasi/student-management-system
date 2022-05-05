@@ -1,7 +1,9 @@
 package se.iths.rest;
 
 
+import se.iths.entity.Subject;
 import se.iths.entity.Teacher;
+import se.iths.service.SubjectService;
 import se.iths.service.TeacherService;
 import se.iths.exception.Exception;
 import javax.inject.Inject;
@@ -15,6 +17,7 @@ import java.util.List;
 @Produces(MediaType.APPLICATION_JSON)
 public class TeacherRest {
     TeacherService teacherService;
+    SubjectService subjectService;
 
     @Inject
     public TeacherRest(TeacherService teacherService) {
@@ -47,7 +50,7 @@ public class TeacherRest {
         }
     }
 
-    @Path("readAll")
+    @Path("getall")
     @GET
     public Response getAllTeachers() {
         List<Teacher> foundTeachers = teacherService.getAllTeachers();
@@ -59,6 +62,18 @@ public class TeacherRest {
     public Response deleteTeacher(@PathParam("id") Long id) {
         teacherService.deleteTeacher(id);
         return Response.noContent().build();
+    }
+
+    @Path("{idSubject}")
+    @PUT
+    public Response addTeacherToSubject(@PathParam("idSubject") Long idSubject, Teacher teacher){
+
+        Teacher findTeacher = teacherService.createTeacher(teacher);
+        Subject findSubject = subjectService.findBySubjectId(idSubject);
+
+        findTeacher.addSubject(findSubject);
+        return Response.ok().entity(findTeacher.toString() + findSubject.toString()).build();
+
     }
 
     public boolean emailExists(List<Teacher> teachersFound, String emailValue) {
@@ -74,5 +89,6 @@ public class TeacherRest {
     }
 
 
-    }
+
+}
 
